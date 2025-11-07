@@ -29,7 +29,7 @@ function getLocale(request: NextRequest): string {
 }
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
 
   if (
     pathname.startsWith("/_next") ||
@@ -55,6 +55,9 @@ export function middleware(request: NextRequest) {
 
   const detectedLocale = getLocale(request);
   const redirectUrl = new URL(`/${detectedLocale}${pathname}`, request.url);
+  if (search) {
+    redirectUrl.search = search;
+  }
   const response = NextResponse.redirect(redirectUrl);
   response.cookies.set({
     name: LOCALE_COOKIE,

@@ -6,12 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "get-refresh-token": "node scripts/get-google-refresh-token.cjs"
   },
   "dependencies": {
+    "googleapis": "^131.0.0",
     "next": "^14.2.33",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "sweetalert2": "^11.12.2"
   },
   "devDependencies": {
     "@types/node": "20.10.5",

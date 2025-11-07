@@ -1,0 +1,115 @@
+import { google } from "googleapis";
+
+export interface ContactSubmission {
+  locale: string;
+  name: string;
+  email: string;
+  role: string;
+  requestType: string;
+  message: string;
+  ip: string;
+  userAgent: string;
+  consent: boolean;
+}
+
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 1;
+
+interface RateLimitEntry {
+  count: number;
+  windowStart: number;
+}
+
+const rateLimitMap = new Map<string, RateLimitEntry>();
+
+const REQUIRED_ENV_VARS = [
+  "GOOGLE_CLIENT_ID",
+  "GOOGLE_CLIENT_SECRET",
+  "GOOGLE_REFRESH_TOKEN",
+  "GOOGLE_SHEETS_SPREADSHEET_ID"
+] as const;
+
+type RequiredEnv = (typeof REQUIRED_ENV_VARS)[number];
+
+function getEnv(name: RequiredEnv): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Environment variable ${name} is not set.`);
+  }
+  return value;
+}
+
+function createSheetsClient() {
+  const client = new google.auth.OAuth2(
+    getEnv("GOOGLE_CLIENT_ID"),
+    getEnv("GOOGLE_CLIENT_SECRET")
+  );
+
+  client.setCredentials({ refresh_token: getEnv("GOOGLE_REFRESH_TOKEN") });
+
+  return google.sheets({ version: "v4", auth: client });
+}
+
+let cachedRange: string | null = null;
+
+async function resolveRange(sheetsClient: ReturnType<typeof createSheetsClient>, spreadsheetId: string) {
+  if (process.env.GOOGLE_SHEETS_RANGE && process.env.GOOGLE_SHEETS_RANGE.trim()) {
+    return process.env.GOOGLE_SHEETS_RANGE.trim();
+  }
+
+  if (cachedRange) {
+    return cachedRange;
+  }
+
+  const metadata = await sheetsClient.spreadsheets.get({ spreadsheetId });
+  const firstSheetTitle = metadata.data.sheets?.[0]?.properties?.title ?? "Sheet1";
+  cachedRange = `${firstSheetTitle}!A:Z`;
+  return cachedRange;
+}
+
+export function throttleIp(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now - entry.windowStart > RATE_LIMIT_WINDOW_MS) {
+    rateLimitMap.set(ip, { count: 1, windowStart: now });
+    return true;
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX) {
+    return false;
+  }
+
+  entry.count += 1;
+  return true;
+}
+
+export async function appendContactSubmission(payload: ContactSubmission) {
+  const sheets = createSheetsClient();
+  const spreadsheetId = getEnv("GOOGLE_SHEETS_SPREADSHEET_ID");
+  const range = await resolveRange(sheets, spreadsheetId);
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId,
+    range,
+    valueInputOption: "USER_ENTERED",
+    insertDataOption: "INSERT_ROWS",
+    requestBody: {
+      values: [
+        [
+          new Date().toISOString(),
+          payload.locale,
+          payload.name,
+          payload.email,
+          payload.role,
+          payload.requestType,
+          payload.message,
+          payload.consent ? "yes" : "no",
+          payload.ip,
+          payload.userAgent
+        ]
+      ]
+    }
+  });
+}
+
