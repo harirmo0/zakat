@@ -30,6 +30,12 @@ export const metadata: Metadata = {
   },
   description:
     "مرجع maroc zakat الرسمي لحساب نصاب الزكاة 2025 بالمغرب والدول المغاربية مع حاسبات بالدرهم والدولار وروابط للتعاون.",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" }
+    ],
+    shortcut: "/favicon.svg"
+  },
   openGraph: {
     title: "maroc zakat",
     description:

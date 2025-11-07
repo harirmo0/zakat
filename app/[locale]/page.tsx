@@ -20,18 +20,18 @@ export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params
 }: {
   params: { locale: SupportedLocale };
-}): Metadata {
+}): Promise<Metadata> {
   const { locale } = params;
 
   if (!SUPPORTED_LOCALES.includes(locale)) {
     return {};
   }
 
-  const content = getHomeContent(locale);
+  const content = await getHomeContent(locale);
   const lang = LOCALE_TO_LANG[locale];
 
   return {
@@ -55,7 +55,7 @@ export function generateMetadata({
   };
 }
 
-export default function LocaleHome({
+export default async function LocaleHome({
   params
 }: {
   params: { locale: SupportedLocale };
@@ -66,7 +66,7 @@ export default function LocaleHome({
     notFound();
   }
 
-  const content = getHomeContent(locale);
+  const content = await getHomeContent(locale);
   return <HomePage content={content} locale={locale} />;
 }
 

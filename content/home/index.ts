@@ -1,19 +1,18 @@
 import type { HomeContent, SupportedLocale } from "../../types/home";
-import { homeContentAr } from "./ar";
-import { homeContentEn } from "./en";
-import { homeContentFr } from "./fr";
-import { homeContentRu } from "./ru";
-import { homeContentZh } from "./zh";
 
-const homeContentMap: Record<SupportedLocale, HomeContent> = {
-  ar: homeContentAr,
-  en: homeContentEn,
-  fr: homeContentFr,
-  ru: homeContentRu,
-  zh: homeContentZh
-};
-
-export function getHomeContent(locale: SupportedLocale): HomeContent {
-  return homeContentMap[locale] ?? homeContentAr;
+export async function getHomeContent(locale: SupportedLocale): Promise<HomeContent> {
+  switch (locale) {
+    case "fr":
+      return (await import("./fr")).default;
+    case "en":
+      return (await import("./en")).default;
+    case "ru":
+      return (await import("./ru")).default;
+    case "zh":
+      return (await import("./zh")).default;
+    case "ar":
+    default:
+      return (await import("./ar")).default;
+  }
 }
 

@@ -1,6 +1,6 @@
 import type { HomeContent } from "../../types/home";
 
-export const homeContentRu: HomeContent = {
+const homeContentRu: HomeContent = {
   locale: "ru",
   brandSection: {
     heading: "maroc zakat · официальная платформа",
@@ -406,4 +406,6 @@ export const homeContentRu: HomeContent = {
     updated: "Обновлено: ноябрь 2025"
   }
 };
+
+export default homeContentRu;
 

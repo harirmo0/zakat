@@ -1,6 +1,6 @@
 import type { HomeContent } from "../../types/home";
 
-export const homeContentZh: HomeContent = {
+const homeContentZh: HomeContent = {
   locale: "zh",
   brandSection: {
     heading: "maroc zakat · 官方品牌",
@@ -337,4 +337,6 @@ export const homeContentZh: HomeContent = {
     updated: "最后更新：2025 年 11 月"
   }
 };
+
+export default homeContentZh;
 
