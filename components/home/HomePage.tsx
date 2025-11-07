@@ -1,4 +1,5 @@
 import Script from "next/script";
+import Image from "next/image";
 import type { CSSProperties } from "react";
 import type { HomeContent, SupportedLocale } from "../../types/home";
 import CalculatorSection from "./CalculatorSection";
@@ -526,6 +527,15 @@ export function HomePage({ content, locale }: { content: HomeContent; locale: Su
 
       <footer className="footer">
         <div>
+          <div className="footer__brand">
+            <span className="footer__brand-logo" aria-hidden="true">
+              <Image src="/logo-maroc-zakat.svg" alt="" width={44} height={44} />
+            </span>
+            <span className="footer__brand-wordmark" aria-hidden="true">
+              <span>Maroc</span>
+              <span>Zakat</span>
+            </span>
+          </div>
           <p>{content.footer.summary}</p>
           <p className="footer__note">{content.footer.note}</p>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { SupportedLocale } from "../../types/home";
@@ -126,9 +127,15 @@ export default function SiteHeader({ locale }: { locale: SupportedLocale }) {
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <a className="site-header__brand" href={`/${locale}`}>
-          maroc zakat
-        </a>
+        <Link className="site-header__brand" href={`/${locale}`} aria-label="maroc zakat home">
+          <span className="site-header__brand-logo" aria-hidden="true">
+            <Image src="/logo-maroc-zakat.svg" alt="" width={36} height={36} priority />
+          </span>
+          <span className="site-header__brand-wordmark">
+            <span className="site-header__brand-line">Maroc</span>
+            <span className="site-header__brand-line">Zakat</span>
+          </span>
+        </Link>
         <nav className="site-header__nav" aria-label="Primary navigation">
           {navItems.map((item) => (
             <Link
