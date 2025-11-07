@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+
+# Env & config
+.env
+.env.*
+
+# Data & logs
+data/
+lighthouse-report-*.json
+*.log
+
+# Generated contact exports
+data/contact-submissions.csv
+
+# System
+.DS_Store
+Thumbs.db
+
+
