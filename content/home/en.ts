@@ -425,7 +425,15 @@ const homeContentEn: HomeContent = {
   footer: {
     summary: "Prepared under Maliki guidance and official Moroccan fatwas.",
     note: "Always consult a trusted scholar for special cases or when metal prices shift abruptly.",
-    updated: "Last updated: November 2025"
+    updated: "Last updated: November 2025",
+    social: {
+      heading: "Follow maroc zakat",
+      links: [
+        { label: "X (Twitter)", href: "https://x.com/maroc_zakat", ariaLabel: "Follow maroc zakat on X" },
+        { label: "Instagram", href: "https://www.instagram.com/maroczakat/", ariaLabel: "Follow maroc zakat on Instagram" },
+        { label: "YouTube", href: "https://www.youtube.com/@maroc_zakat", ariaLabel: "Watch maroc zakat on YouTube" }
+      ]
+    }
   }
 };
 

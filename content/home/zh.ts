@@ -334,7 +334,15 @@ const homeContentZh: HomeContent = {
   footer: {
     summary: "依据马力基学派及摩洛哥官方指导整理。",
     note: "遇到特殊情况或金属价格大幅波动，请咨询可信学者。",
-    updated: "最后更新：2025 年 11 月"
+    updated: "最后更新：2025 年 11 月",
+    social: {
+      heading: "关注 maroc zakat",
+      links: [
+        { label: "X (Twitter)", href: "https://x.com/maroc_zakat", ariaLabel: "在 X 上关注 maroc zakat" },
+        { label: "Instagram", href: "https://www.instagram.com/maroczakat/", ariaLabel: "在 Instagram 上关注 maroc zakat" },
+        { label: "YouTube", href: "https://www.youtube.com/@maroc_zakat", ariaLabel: "订阅 maroc zakat 的 YouTube 频道" }
+      ]
+    }
   }
 };
 

@@ -13,6 +13,13 @@ const LOCALE_TO_LANG: Record<SupportedLocale, string> = {
   zh: "zh-CN"
 };
 const BASE_URL = "https://maroczakat.com";
+const LOCALE_KEYWORDS: Record<SupportedLocale, string[]> = {
+  ar: ["maroc zakat", "نصاب الزكاة المغرب", "حاسبة الزكاة المغرب", "zakat morocco", "nisab 2025"],
+  fr: ["maroc zakat", "zakat maroc", "calculatrice zakat maroc", "nisab 2025", "zakat au maroc"],
+  en: ["maroc zakat", "morocco zakat calculator", "zakat morocco", "nisab morocco 2025", "zakat calculator"],
+  ru: ["maroc zakat", "закят марокко", "калькулятор закята", "нисаб марокко 2025", "zakat morocco"],
+  zh: ["maroc zakat", "摩洛哥天课", "天课计算器", "摩洛哥尼萨布 2025", "zakat morocco"]
+};
 
 export const dynamicParams = false;
 
@@ -33,12 +40,15 @@ export async function generateMetadata({
 
   const content = await getHomeContent(locale);
   const lang = LOCALE_TO_LANG[locale];
+  const keywords = LOCALE_KEYWORDS[locale] ?? LOCALE_KEYWORDS.en;
+  const pageUrl = `${BASE_URL}/${locale}`;
 
   return {
     title: content.hero.title,
     description: content.hero.description,
+    keywords,
     alternates: {
-      canonical: `${BASE_URL}/${locale}`,
+      canonical: pageUrl,
       languages: SUPPORTED_LOCALES.reduce<Record<string, string>>((acc, loc) => {
         acc[LOCALE_TO_LANG[loc]] = `${BASE_URL}/${loc}`;
         return acc;
@@ -47,10 +57,30 @@ export async function generateMetadata({
     openGraph: {
       title: content.hero.title,
       description: content.hero.description,
-      url: `${BASE_URL}/${locale}`,
+      url: pageUrl,
       siteName: "maroc zakat",
       locale: lang,
-      type: "website"
+      type: "website",
+      images: [
+        {
+          url: "https://maroczakat.com/logo-maroc-zakat.svg",
+          width: 1200,
+          height: 630,
+          alt: `${content.hero.title} – maroc zakat`
+        }
+      ]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: content.hero.title,
+      description: content.hero.description,
+      site: "@maroc_zakat",
+      creator: "@maroc_zakat",
+      images: ["https://maroczakat.com/logo-maroc-zakat.svg"]
+    },
+    robots: {
+      index: true,
+      follow: true
     }
   };
 }

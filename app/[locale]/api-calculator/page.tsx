@@ -3,6 +3,22 @@ import type { SupportedLocale } from "../../../types/home";
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
+const BASE_URL = "https://maroczakat.com";
+const SUPPORTED_LOCALES: SupportedLocale[] = ["ar", "fr", "en", "ru", "zh"];
+const LOCALE_TO_LANG: Record<SupportedLocale, string> = {
+  ar: "ar-MA",
+  fr: "fr-FR",
+  en: "en-US",
+  ru: "ru-RU",
+  zh: "zh-CN"
+};
+const LOCALE_KEYWORDS: Record<SupportedLocale, string[]> = {
+  ar: ["واجهة API حاسبة الزكاة", "maroc zakat api", "تضمين حاسبة الزكاة", "zakat api", "nisab api"],
+  fr: ["api maroc zakat", "api calculatrice zakat", "zakat maroc développeurs", "nisab api", "zakat integration"],
+  en: ["maroc zakat api", "zakat calculator api", "morocco zakat developer", "nisab api", "zakat integration"],
+  ru: ["maroc zakat api", "api калькулятор закята", "интеграция закята", "nisab api", "zakat api"],
+  zh: ["maroc zakat api", "天课计算器 API", "摩洛哥天课接口", "nisab api", "zakat integration"]
+};
 
 interface Section {
   heading: string;
@@ -394,10 +410,49 @@ const COPY: Record<SupportedLocale, ApiDocCopy> = {
 };
 
 export function generateMetadata({ params }: { params: { locale: SupportedLocale } }): Metadata {
-  const copy = COPY[params.locale] ?? COPY.en;
+  const locale = SUPPORTED_LOCALES.includes(params.locale) ? params.locale : "en";
+  const copy = COPY[locale];
+  const keywords = LOCALE_KEYWORDS[locale] ?? LOCALE_KEYWORDS.en;
+  const pageUrl = `${BASE_URL}/${locale}/api-calculator`;
+
   return {
     title: copy.title,
-    description: copy.intro
+    description: copy.intro,
+    keywords,
+    alternates: {
+      canonical: pageUrl,
+      languages: SUPPORTED_LOCALES.reduce<Record<string, string>>((acc, loc) => {
+        acc[LOCALE_TO_LANG[loc]] = `${BASE_URL}/${loc}/api-calculator`;
+        return acc;
+      }, {})
+    },
+    openGraph: {
+      title: copy.title,
+      description: copy.intro,
+      url: pageUrl,
+      siteName: "maroc zakat",
+      type: "article",
+      images: [
+        {
+          url: "https://maroczakat.com/logo-maroc-zakat.svg",
+          width: 1200,
+          height: 630,
+          alt: `${copy.title} – maroc zakat`
+        }
+      ]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: copy.title,
+      description: copy.intro,
+      site: "@maroc_zakat",
+      creator: "@maroc_zakat",
+      images: ["https://maroczakat.com/logo-maroc-zakat.svg"]
+    },
+    robots: {
+      index: true,
+      follow: true
+    }
   };
 }
 

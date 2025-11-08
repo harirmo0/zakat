@@ -538,7 +538,27 @@ export function HomePage({ content, locale }: { content: HomeContent; locale: Su
           </div>
           <p>{content.footer.summary}</p>
           <p className="footer__note">{content.footer.note}</p>
+          {content.footer.social ? (
+            <div className="footer__social">
+              <span className="footer__social-heading">{content.footer.social.heading}</span>
+              <ul className="footer__social-links">
+                {content.footer.social.links.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer me"
+                      aria-label={link.ariaLabel ?? link.label}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </div>
+        {content.footer.copyright && <span className="footer__copyright">{content.footer.copyright}</span>}
         <span className="footer__signature">{content.footer.updated}</span>
       </footer>
     </>

@@ -423,7 +423,15 @@ const homeContentFr: HomeContent = {
   footer: {
     summary: "Contenu préparé selon la jurisprudence malikite et les avis officiels marocains.",
     note: "Consultez un savant de confiance pour les cas spécifiques ou en cas de volatilité des métaux.",
-    updated: "Dernière mise à jour : novembre 2025"
+    updated: "Dernière mise à jour : novembre 2025",
+    social: {
+      heading: "Suivez maroc zakat",
+      links: [
+        { label: "X (Twitter)", href: "https://x.com/maroc_zakat", ariaLabel: "Suivre maroc zakat sur X" },
+        { label: "Instagram", href: "https://www.instagram.com/maroczakat/", ariaLabel: "Suivre maroc zakat sur Instagram" },
+        { label: "YouTube", href: "https://www.youtube.com/@maroc_zakat", ariaLabel: "S’abonner à maroc zakat sur YouTube" }
+      ]
+    }
   }
 };
 

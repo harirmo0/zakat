@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 const BASE_URL = "https://maroczakat.com";
 const LOCALES = ["ar", "fr", "en", "ru", "zh"];
-const STATIC_ROUTES = ["", "/contact"];
+const STATIC_ROUTES = ["", "/contact", "/api-calculator"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date().toISOString();

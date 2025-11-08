@@ -147,6 +147,11 @@ export interface FooterContent {
   summary: string;
   note: string;
   updated: string;
+  social?: {
+    heading: string;
+    links: { label: string; href: string; ariaLabel?: string }[];
+  };
+  copyright?: string;
 }
 
 export interface HomeContent {

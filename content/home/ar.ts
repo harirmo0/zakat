@@ -448,7 +448,15 @@ const homeContentAr: HomeContent = {
       "أُعدّت هذه الصفحة مع مراعاة الاجتهاد المالكي والفتاوى الرسمية في المغرب.",
     note:
       "لا تُغني هذه المادة عن استشارة عالم موثوق عند الحالات الخاصة أو عند تغيّر أسعار المعادن.",
-    updated: "آخر تحديث: نوفمبر 2025"
+    updated: "آخر تحديث: نوفمبر 2025",
+    social: {
+      heading: "تابع maroc zakat",
+      links: [
+        { label: "منصة X", href: "https://x.com/maroc_zakat", ariaLabel: "تابع maroc zakat على منصة X" },
+        { label: "إنستغرام", href: "https://www.instagram.com/maroczakat/", ariaLabel: "تابع maroc zakat على إنستغرام" },
+        { label: "يوتيوب", href: "https://www.youtube.com/@maroc_zakat", ariaLabel: "اشترك في قناة maroc zakat على يوتيوب" }
+      ]
+    }
   }
 };
 

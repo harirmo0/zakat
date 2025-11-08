@@ -403,7 +403,15 @@ const homeContentRu: HomeContent = {
   footer: {
     summary: "Платформа подготовлена в соответствии с маликитской традицией и официальными фетвами Марокко.",
     note: "Для особых случаев обращайтесь к ученому и отслеживайте цены на металлы.",
-    updated: "Обновлено: ноябрь 2025"
+    updated: "Обновлено: ноябрь 2025",
+    social: {
+      heading: "Следите за maroc zakat",
+      links: [
+        { label: "X (Twitter)", href: "https://x.com/maroc_zakat", ariaLabel: "Следить за maroc zakat в X" },
+        { label: "Instagram", href: "https://www.instagram.com/maroczakat/", ariaLabel: "Следить за maroc zakat в Instagram" },
+        { label: "YouTube", href: "https://www.youtube.com/@maroc_zakat", ariaLabel: "Подписаться на maroc zakat на YouTube" }
+      ]
+    }
   }
 };
 
