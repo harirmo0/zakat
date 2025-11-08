@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import { createRateLimiter } from "./rate-limit";
 
 export interface ContactSubmission {
   locale: string;
@@ -12,15 +13,7 @@ export interface ContactSubmission {
   consent: boolean;
 }
 
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX = 1;
-
-interface RateLimitEntry {
-  count: number;
-  windowStart: number;
-}
-
-const rateLimitMap = new Map<string, RateLimitEntry>();
+const contactLimiter = createRateLimiter({ windowMs: 60_000, maxRequests: 1 });
 
 const REQUIRED_ENV_VARS = [
   "GOOGLE_CLIENT_ID",
@@ -68,20 +61,8 @@ async function resolveRange(sheetsClient: ReturnType<typeof createSheetsClient>,
 }
 
 export function throttleIp(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
-
-  if (!entry || now - entry.windowStart > RATE_LIMIT_WINDOW_MS) {
-    rateLimitMap.set(ip, { count: 1, windowStart: now });
-    return true;
-  }
-
-  if (entry.count >= RATE_LIMIT_MAX) {
-    return false;
-  }
-
-  entry.count += 1;
-  return true;
+  const result = contactLimiter.check(ip);
+  return result.allowed;
 }
 
 export async function appendContactSubmission(payload: ContactSubmission) {

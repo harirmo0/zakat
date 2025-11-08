@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { calculateZakat } from "../../lib/calculator";
 import type { CalculatorContent, SupportedLocale } from "../../types/home";
 
 const LOCALE_TO_INTL: Record<SupportedLocale, string> = {
@@ -31,20 +32,23 @@ export function CalculatorSection({ content, locale }: CalculatorSectionProps) {
   const [nisab, setNisab] = useState<number>(content.nisabOptions[0]?.value ?? 0);
   const formatter = useMemo(() => getFormatter(locale), [locale]);
 
-  const monthlySaving = Math.max(salary - expenses, 0);
-  const annualSaving = monthlySaving * 12;
-  const zakatAmount = annualSaving >= nisab ? annualSaving * 0.025 : 0;
+  const result = useMemo(
+    () => calculateZakat({ salary, expenses, nisab }),
+    [salary, expenses, nisab]
+  );
+
+  const { monthlySaving, annualSaving, zakatAmount, status } = result;
 
   let statusChip = content.statusMessages.invalid.chip;
   let recommendation = content.statusMessages.invalid.recommendation;
 
-  if (salary <= 0) {
+  if (status === "invalid_salary" || status === "invalid_expenses" || status === "invalid_nisab") {
     statusChip = content.statusMessages.invalid.chip;
     recommendation = content.statusMessages.invalid.recommendation;
-  } else if (monthlySaving <= 0) {
+  } else if (status === "no_savings") {
     statusChip = content.statusMessages.noSavings.chip;
     recommendation = content.statusMessages.noSavings.recommendation;
-  } else if (annualSaving < nisab) {
+  } else if (status === "below_nisab") {
     statusChip = content.statusMessages.belowNisab.chip;
     recommendation = content.statusMessages.belowNisab.recommendation;
   } else {
@@ -119,7 +123,11 @@ export function CalculatorSection({ content, locale }: CalculatorSectionProps) {
             </div>
             <div>
               <dt>{content.recommendationLabel}</dt>
-              <dd>{salary <= 0 ? content.initialRecommendation : recommendation}</dd>
+              <dd>
+                {status === "invalid_salary" || status === "invalid_expenses" || status === "invalid_nisab"
+                  ? content.initialRecommendation
+                  : recommendation}
+              </dd>
             </div>
           </dl>
           <p className="hint">{content.hint}</p>
