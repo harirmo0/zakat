@@ -13,6 +13,7 @@ const LABELS: Record<
   {
     home: string;
     calculator: string;
+    api: string;
     contact: string;
     localeName: string;
     localeSwitcher: string;
@@ -21,6 +22,7 @@ const LABELS: Record<
   ar: {
     home: "الرئيسية",
     calculator: "حاسبة الزكاة",
+    api: "واجهة API",
     contact: "اتصل بنا",
     localeName: "العربية",
     localeSwitcher: "اللغة"
@@ -28,6 +30,7 @@ const LABELS: Record<
   fr: {
     home: "Accueil",
     calculator: "Calculatrice",
+    api: "API",
     contact: "Contact",
     localeName: "Français",
     localeSwitcher: "Langue"
@@ -35,6 +38,7 @@ const LABELS: Record<
   en: {
     home: "Home",
     calculator: "Calculator",
+    api: "API",
     contact: "Contact",
     localeName: "English",
     localeSwitcher: "Language"
@@ -42,6 +46,7 @@ const LABELS: Record<
   ru: {
     home: "Главная",
     calculator: "Калькулятор",
+    api: "API",
     contact: "Контакты",
     localeName: "Русский",
     localeSwitcher: "Язык"
@@ -49,6 +54,7 @@ const LABELS: Record<
   zh: {
     home: "首页",
     calculator: "天课计算器",
+    api: "API",
     contact: "联系",
     localeName: "中文",
     localeSwitcher: "语言"
@@ -116,6 +122,11 @@ export default function SiteHeader({ locale }: { locale: SupportedLocale }) {
       href: `/${locale}${queryString ? `?${queryString}` : ""}#calculator`,
       label: labels.calculator,
       isActive: basePath === "/" && currentHash === "#calculator"
+    },
+    {
+      href: `/${locale}/api-calculator${queryString ? `?${queryString}` : ""}`,
+      label: labels.api,
+      isActive: basePath.startsWith("/api-calculator")
     },
     {
       href: `/${locale}/contact${queryString ? `?${queryString}` : ""}`,

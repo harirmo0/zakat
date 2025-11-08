@@ -91,3 +91,10 @@ All responses return `Cache-Control: no-store`.
 - For production usage, front a CDN or API gateway if you need stronger rate limiting, analytics, or IP reputation filtering.
 
 
+curl -X POST localhost:3000/api/calculator \
+  -H "Content-Type: application/json" \
+  -d '{
+        "salary": 12000,
+        "expenses": 6500,
+        "nisab": 7438
+      }'
