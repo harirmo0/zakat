@@ -345,6 +345,19 @@ const homeContentFr: HomeContent = {
       }
     ]
   },
+  reminder: {
+    heading: "Recevez les rappels Maroc Zakat",
+    description:
+      "Indiquez votre e-mail pour recevoir les mises à jour du nisab, les nouveautés de la calculatrice et un rappel mensuel.",
+    emailLabel: "Adresse e-mail",
+    nameLabel: "Prénom (optionnel)",
+    consentLabel: "J’accepte de recevoir les rappels Maroc Zakat et les informations sur la confidentialité.",
+    submitLabel: "S’abonner",
+    successMessage: "Votre inscription est confirmée. Vous recevrez un rappel mensuel et les dernières actualités.",
+    errorMessage: "Nous ne pouvons pas enregistrer votre abonnement pour le moment. Veuillez réessayer plus tard.",
+    badgeLabel: "Digest mensuel",
+    hint: "1 à 2 e-mails par mois, désinscription possible en un clic."
+  },
   goldVsSilver: {
     heading: "Argent ou or ?",
     description: "Pourquoi la fatwa marocaine retient l’argent et quand envisager l’or.",

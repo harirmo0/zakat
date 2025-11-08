@@ -346,6 +346,18 @@ const homeContentEn: HomeContent = {
       }
     ]
   },
+  reminder: {
+    heading: "Get Maroc Zakat reminders",
+    description: "Drop your email to receive curated nisab updates, calculator tweaks, and monthly prompts.",
+    emailLabel: "Email address",
+    nameLabel: "First name (optional)",
+    consentLabel: "I agree to receive Maroc Zakat reminders and privacy updates.",
+    submitLabel: "Subscribe",
+    successMessage: "You’re on the reminder list. We’ll send monthly zakat prompts and major updates.",
+    errorMessage: "We couldn’t save your subscription right now. Please try again in a moment.",
+    badgeLabel: "Monthly digest",
+    hint: "We send 1–2 emails per month and you can unsubscribe in one click."
+  },
   goldVsSilver: {
     heading: "Silver vs gold",
     description: "Why maroc zakat relies on silver and when a gold-based calculation still makes sense.",

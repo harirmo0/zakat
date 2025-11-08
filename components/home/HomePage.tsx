@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import type { HomeContent, SupportedLocale } from "../../types/home";
 import CalculatorSection from "./CalculatorSection";
+import ReminderSignup from "./ReminderSignup";
 
 const SKIP_LINK_LABEL: Record<SupportedLocale, string> = {
   ar: "تجاوز إلى المحتوى الرئيسي",
@@ -491,6 +492,16 @@ export function HomePage({ content, locale }: { content: HomeContent; locale: Su
             </div>
           </div>
           <p className="note">{content.goldVsSilver.conclusion}</p>
+        </section>
+
+        <section className="section section--alt" id="reminder">
+          <div className="section__header">
+            <h2>{content.reminder.heading}</h2>
+            <p>{content.reminder.description}</p>
+          </div>
+          <div className="reminder">
+            <ReminderSignup copy={content.reminder} locale={locale} />
+          </div>
         </section>
 
         <section className="section section--alt" id="faq">

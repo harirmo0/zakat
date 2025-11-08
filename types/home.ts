@@ -154,6 +154,19 @@ export interface FooterContent {
   copyright?: string;
 }
 
+export interface ReminderContent {
+  heading: string;
+  description: string;
+  emailLabel: string;
+  nameLabel?: string;
+  consentLabel: string;
+  submitLabel: string;
+  successMessage: string;
+  errorMessage: string;
+  badgeLabel?: string;
+  hint?: string;
+}
+
 export interface HomeContent {
   locale: SupportedLocale;
   brandSection?: {
@@ -205,6 +218,7 @@ export interface HomeContent {
     description: string;
     cards: SimpleCardContent[];
   };
+  reminder: ReminderContent;
   goldVsSilver: GoldSilverContent;
   faq: {
     heading: string;

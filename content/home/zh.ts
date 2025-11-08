@@ -277,6 +277,18 @@ const homeContentZh: HomeContent = {
       }
     ]
   },
+  reminder: {
+    heading: "订阅 Maroc Zakat 提醒",
+    description: "留下邮箱即可收到尼萨布更新、计算器改进以及每月天课提醒。",
+    emailLabel: "电子邮箱",
+    nameLabel: "名字（可选）",
+    consentLabel: "我同意接收 Maroc Zakat 提醒及隐私相关通知。",
+    submitLabel: "订阅",
+    successMessage: "订阅成功。我们会发送每月提醒和重要更新。",
+    errorMessage: "暂时无法保存订阅，请稍后再试。",
+    badgeLabel: "每月摘要",
+    hint: "每月 1-2 封邮件，可随时一键退订。"
+  },
   goldVsSilver: {
     heading: "白银 vs 黄金",
     description: "为何摩洛哥首选白银？何时可以考虑黄金。",
