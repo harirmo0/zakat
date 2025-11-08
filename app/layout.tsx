@@ -25,11 +25,11 @@ const LOCALE_META: Record<
 export const metadata: Metadata = {
   metadataBase: new URL("https://maroczakat.com"),
   title: {
-    default: "maroc zakat | نصاب الزكاة 2025 في المغرب",
+    default: "maroc zakat | حساب الزكاة2025 في المغرب",
     template: "%s | maroc zakat"
   },
   description:
-    "مرجع maroc zakat الرسمي لحساب نصاب الزكاة 2025 بالمغرب والدول المغاربية مع حاسبات بالدرهم والدولار وروابط للتعاون.",
+    "مرجع maroc zakat الرسمي لحساب حساب الزكاة2025 بالمغرب والدول المغاربية مع حاسبات بالدرهم والدولار وروابط للتعاون.",
   keywords: [
     "maroc zakat",
     "zakat maroc",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "maroc zakat",
     description:
-      "حاسبة الزكاة 2025، نصاب الزكاة بالمغرب، فروقات 2024، وروابط التعاون عبر منصة maroc zakat.",
+      "حاسبة الزكاة 2025، حساب الزكاةبالمغرب، فروقات 2024، وروابط التعاون عبر منصة maroc zakat.",
     url: "https://maroczakat.com/",
     siteName: "maroc zakat",
     locale: "ar_MA",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "maroc zakat",
     description:
-      "منصة maroc zakat الرسمية لحساب نصاب الزكاة 2025 بالمغرب والدول المغاربية.",
+      "منصة maroc zakat الرسمية لحساب حساب الزكاة2025 بالمغرب والدول المغاربية.",
     creator: "@maroc_zakat",
     site: "@maroc_zakat",
     images: ["https://maroczakat.com/logo-maroc-zakat.svg"]
@@ -76,9 +76,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      maxSnippet: -1,
-      maxImagePreview: "large",
-      maxVideoPreview: -1
+      "max-snippet" : -1,
+      "max-image-preview" : "large",
+      "max-video-preview" : -1
     }
   }
 };
