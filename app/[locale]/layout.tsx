@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import SiteHeader from "../../components/layout/SiteHeader";
 import type { SupportedLocale } from "../../types/home";
 import { Analytics } from "@vercel/analytics/next"
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const SUPPORTED_LOCALES: SupportedLocale[] = ["ar", "fr", "en", "ru", "zh"];
 
 export default function LocaleLayout({
