@@ -94,3 +94,57 @@ export async function appendContactSubmission(payload: ContactSubmission) {
   });
 }
 
+export interface ReminderSubscriber {
+  email: string;
+  locale: string;
+  name: string;
+}
+
+export const REMINDER_ROLE = "subscriber";
+export const REMINDER_REQUEST_TYPE = "data-update";
+export const REMINDER_MESSAGE = "Please keep me updated of zakat with maroczakat reminder.";
+
+export async function listReminderSubscribers(): Promise<ReminderSubscriber[]> {
+  const sheets = createSheetsClient();
+  const spreadsheetId = getEnv("GOOGLE_SHEETS_SPREADSHEET_ID");
+  const range = await resolveRange(sheets, spreadsheetId);
+
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId,
+    range
+  });
+
+  const rows = response.data.values ?? [];
+  const unique = new Map<string, ReminderSubscriber>();
+
+  for (const row of rows) {
+    const [
+      _timestamp,
+      locale = "en",
+      name = "",
+      email = "",
+      role = "",
+      requestType = "",
+      message = "",
+      consent = ""
+    ] = row;
+
+    if (!email) continue;
+    if (role?.toLowerCase() !== REMINDER_ROLE) continue;
+    if (requestType !== REMINDER_REQUEST_TYPE) continue;
+    if (message !== REMINDER_MESSAGE) continue;
+    if (consent?.toLowerCase() !== "yes") continue;
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail) continue;
+
+    unique.set(normalizedEmail, {
+      email: normalizedEmail,
+      locale: typeof locale === "string" && locale ? locale : "en",
+      name: typeof name === "string" ? name : ""
+    });
+  }
+
+  return Array.from(unique.values());
+}
+

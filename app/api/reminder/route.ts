@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
-import { appendContactSubmission } from "../../../lib/contact";
+import {
+  appendContactSubmission,
+  REMINDER_MESSAGE,
+  REMINDER_REQUEST_TYPE,
+  REMINDER_ROLE
+} from "../../../lib/contact";
 import { createRateLimiter } from "../../../lib/rate-limit";
+import { sendEmailSafe } from "../../../lib/sendgrid";
 
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 5;
-const DEFAULT_ROLE = "subscriber";
-const DEFAULT_REQUEST_TYPE = "data-update";
-const DEFAULT_MESSAGE = "Please keep me updated of zakat with maroczakat reminder.";
 
 const rateLimiter = createRateLimiter({ windowMs: WINDOW_MS, maxRequests: MAX_REQUESTS });
 
@@ -66,7 +69,9 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!consent) {
+  const hasConsent = typeof consent === "boolean" ? consent : consent === "true";
+
+  if (!hasConsent) {
     return NextResponse.json(
       { ok: false, error: { code: "consent_required", message: "Consent is required to subscribe." } },
       { status: 400, headers: { "Cache-Control": "no-store" } }
@@ -74,16 +79,43 @@ export async function POST(request: Request) {
   }
 
   try {
+    const normalizedLocale = typeof locale === "string" ? locale : "en";
+    const normalizedName = typeof name === "string" ? name.trim() : "";
+    const normalizedEmail = email.trim();
+
     await appendContactSubmission({
-      locale: typeof locale === "string" ? locale : "en",
-      name: typeof name === "string" ? name : "",
-      email: email.trim(),
-      role: DEFAULT_ROLE,
-      requestType: DEFAULT_REQUEST_TYPE,
-      message: DEFAULT_MESSAGE,
+      locale: normalizedLocale,
+      name: normalizedName,
+      email: normalizedEmail,
+      role: REMINDER_ROLE,
+      requestType: REMINDER_REQUEST_TYPE,
+      message: REMINDER_MESSAGE,
       consent: true,
       ip,
       userAgent: headers.get("user-agent") ?? "unknown"
+    });
+
+    const greetingName = normalizedName || "Friend";
+    void sendEmailSafe({
+      to: normalizedEmail,
+      subject: "Maroc Zakat reminders – you're on the list",
+      text: [
+        `Salam ${greetingName},`,
+        "",
+        "You're now subscribed to Maroc Zakat reminders. Expect a short digest every month with nisab updates, calculator tweaks, and practical tips.",
+        "",
+        "You can unsubscribe at any time using the link in any email.",
+        "",
+        "Baraka Allahu fik,",
+        "Maroc Zakat"
+      ].join("\n"),
+      html: `
+        <p>Salam ${greetingName},</p>
+        <p>You’re now subscribed to <strong>Maroc Zakat reminders</strong>. Expect a short digest every month with nisab updates, calculator tweaks, and practical tips.</p>
+        <p>You can unsubscribe at any time using the link in any email.</p>
+        <p>Baraka Allahu fik,<br />Maroc Zakat</p>
+      `,
+      category: "reminder-welcome"
     });
 
     return NextResponse.json(
